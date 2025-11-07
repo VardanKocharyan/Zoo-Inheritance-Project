@@ -22,7 +22,7 @@ class Animal {
 
     public:
         Animal();
-        Animal(const std::string& _name, int _health = 100, int _hunger = 0);
+        Animal(const std::string& _name = "Unnamed", int _health = 100, int _hunger = 0, Kind _k = Kind::Animal);
         virtual ~Animal() = default;
 
         void PrintInfo() const;
@@ -36,10 +36,11 @@ class Mammal : public Animal{
         bool warmBlooded;
     public:
         Mammal();
-        Mammal(const std::string& _name);
+        Mammal(const std::string& _name, Kind _k = Kind::Mammal);
         virtual ~Mammal() = default;
 
-        void MakeSound();
+        void PrintInfo() const;
+        void MakeSound() const;
 };
 
 class Bird : public Animal {
@@ -47,9 +48,10 @@ class Bird : public Animal {
         double wingSpan;
     public:
         Bird();
-        Bird(const std::string& _name, double _wingSpan = 0.2);
+        Bird(const std::string& _name, double _wingSpan = 0.6, Kind _k = Kind::Bird);
         virtual ~Bird() = default;
 
+        void PrintInfo() const;
         void Fly() const;
 };
 
@@ -58,9 +60,10 @@ class Reptile : public Animal {
         bool coldBlooded;
     public:
         Reptile();
-        Reptile(const std::string& _name);
+        Reptile(const std::string& _name, Kind _k = Kind::Reptile);
         virtual ~Reptile() = default;
 
+        void PrintInfo() const;
         void Sunbathe();
 };
 
@@ -69,8 +72,9 @@ class Lion : public Mammal {
         int roarPower;      // 1..10
     public:
         Lion();
-        Lion(const std::string& _name, int _roarPower = 4);
+        Lion(const std::string& _name, int _roarPower = 4, Kind _k = Kind::Lion);
 
+        void PrintInfo() const;
         void Roar() const;        // print "Lion roars with power X"
 };
 
@@ -79,7 +83,9 @@ class Tiger : public Mammal {
             double jumpHeight;
         public:
             Tiger();
-            Tiger(const std::string& _name, double _jumpHeight = 2.6);
+            Tiger(const std::string& _name, double _jumpHeight = 2.6, Kind _k = Kind::Tiger);
+
+            void PrintInfo() const;
             void MakeSound() const;
             void Jump() const;
 };
@@ -90,8 +96,9 @@ class Elephant : public Mammal {
             double trunkLength;
         public:
             Elephant();
-            Elephant(const std::string& _name, double _trunkLength = 0.8);
+            Elephant(const std::string& _name, double _trunkLength = 0.8, Kind _k = Kind::Elephant);
 
+            void PrintInfo() const;
             void MakeSound() const;
             void UseTrunk() const;
 };
@@ -101,8 +108,9 @@ class Eagle : public Bird {
             double visionRange;
         public:
             Eagle();
-            Eagle(const std::string& _name, double _visionRange = 50.0);
+            Eagle(const std::string& _name, double _visionRange = 50.0, Kind _k = Kind::Eagle);
 
+            void PrintInfo() const;
             void Fly() const;
             void Soar() const;
 };
@@ -112,8 +120,9 @@ class Parrot : public Bird {
         std::vector<std::string> vocabulary;
     public:
         Parrot();
-        Parrot(const std::string& _name, std::string _text = "q");
+        Parrot(const std::string& _name, std::string _text = "q", Kind _k = Kind::Parrot);
 
+        void PrintInfo() const;
         void Fly() const;
         void Speak() const;
 };
@@ -123,8 +132,9 @@ class Snake : public Reptile {
         bool poisonous;
     public:
         Snake();
-        Snake(const std::string& _name, bool _poisonous = false);
+        Snake(const std::string& _name, bool _poisonous = false, Kind _k = Kind::Snake);
 
+        void PrintInfo() const;
         void Hiss() const;
 };
 
@@ -133,8 +143,9 @@ class Crocodile : public Reptile {
             int biteForce;
         public:
             Crocodile();
-            Crocodile(const std::string& _name, int _biteForce = 4);
+            Crocodile(const std::string& _name, int _biteForce = 4, Kind _k = Kind::Crocodile);
 
+            void PrintInfo() const;
             void Snap() const;
 };
 

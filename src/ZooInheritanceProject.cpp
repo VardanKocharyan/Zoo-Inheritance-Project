@@ -6,16 +6,42 @@
         //Animal
 int Animal::next_id = 1;
 
-Animal::Animal() : name{"Unnamed"}, health{100}, hunger{0}, kind{Kind::Animal}, Id{next_id++} {}
+Animal::Animal() 
+    : name{"Unnamed"}, health{100}, hunger{0}, kind{Kind::Animal}, Id{next_id++} {}
 
-Animal::Animal(const std::string& _name, int _health, int _hunger) 
-    : name{_name}, health{_health}, hunger{_hunger}, kind{Kind::Animal}, Id{next_id++} {}
+Animal::Animal(const std::string& _name, int _health, int _hunger, Kind _k) 
+    : name{_name}, health{_health}, hunger{_hunger}, kind{_k}, Id{next_id++} {}
 
 void Animal::PrintInfo() const {
-    std::cout << "Name: " << name
-        <<"\nHealth: " << health
-        << "\nHunger: " << hunger
-        << "\nId: " << getId() << "\n" << std::endl;
+    switch(kind) {
+            case Kind::Lion:
+                static_cast<const Lion*>(this)->PrintInfo();
+                break;
+            case Kind::Tiger:
+                static_cast<const Tiger*>(this)->PrintInfo();
+                break;
+            case Kind::Elephant:
+                static_cast<const Elephant*>(this)->PrintInfo();
+                break;
+            case Kind::Eagle:
+                static_cast<const Eagle*>(this)->PrintInfo();
+                break;
+            case Kind::Parrot:
+                static_cast<const Parrot*>(this)->PrintInfo();
+                break;
+            case Kind::Snake:
+                static_cast<const Snake*>(this)->PrintInfo();
+                break;
+            case Kind::Crocodile:
+                static_cast<const Crocodile*>(this)->PrintInfo();
+                break;
+            case Kind::Mammal:
+            case Kind::Bird:
+            case Kind::Reptile:
+            case Kind::Animal:
+                PrintInfo();
+                break;
+    }
 }
 
 void Animal::Feed() {
@@ -37,26 +63,41 @@ int Animal::getId() const { return Id; }
 //____________________________________________________________________________
 
         //Mammal
-Mammal::Mammal() : Animal(), warmBlooded{true} {
-    kind = Kind::Mammal;
+Mammal::Mammal() 
+    : Animal("Unnamed", 100, 0, Kind::Mammal), warmBlooded{true} {}
+
+Mammal::Mammal(const std::string& _name, Kind _k) 
+    : Animal(_name,100, 0, _k), warmBlooded{true} {}
+
+void Mammal::PrintInfo() const {
+     std::cout << "Name: " << name
+        <<"\nHealth: " << health
+        << "\nHunger: " << hunger
+        << "\nId: " << getId() << "\n" << std::endl;
+
+    std::cout << "warmBlooded: True.\n";
+    MakeSound();
 }
 
-Mammal::Mammal(const std::string& _name): Animal(_name), warmBlooded{true} {
-    kind = Kind::Mammal;
-}
-
-void Mammal::MakeSound() {
+void Mammal::MakeSound() const {
         std::cout << "make a generic mammal sound!" << std::endl;
 }
 
 
         //Bird
-Bird::Bird() : Animal() {
-    kind = Kind::Bird;
-}
+Bird::Bird() 
+    : Animal("Unnamed", 100, 0, Kind::Bird), wingSpan{0.6} {}
 
-Bird::Bird(const std::string& _name, double _wingSpan) : Animal(_name), wingSpan(_wingSpan) {
-            kind = Kind::Bird;
+Bird::Bird(const std::string& _name, double _wingSpan, Kind _k) 
+    : Animal(_name, 100, 0, _k), wingSpan(_wingSpan) {}
+
+void Bird::PrintInfo() const {
+     std::cout << "Name: " << name
+        <<"\nHealth: " << health
+        << "\nHunger: " << hunger
+        << "\nId: " << getId() << "\n" << std::endl;
+
+    std::cout << "wingSpan: " << wingSpan << std::endl;
 }
 
 void Bird::Fly() const {
@@ -66,27 +107,36 @@ void Bird::Fly() const {
 
 
         //Reptile
-Reptile::Reptile() : Animal(), coldBlooded{true} {
-    kind = Kind::Reptile;
-}
+Reptile::Reptile() 
+    : Animal("Unnamed", 100, 0, Kind::Reptile), coldBlooded{true} {}
     
-Reptile::Reptile(const std::string& _name) : Animal(_name), coldBlooded{true} {
-    kind = Kind::Reptile;
-}
+Reptile::Reptile(const std::string& _name, Kind _k) 
+    : Animal(_name, 100, 0, _k), coldBlooded{true} {}
     
+void Reptile::PrintInfo() const {
+     std::cout << "Name: " << name
+        <<"\nHealth: " << health
+        << "\nHunger: " << hunger
+        << "\nId: " << getId() << "\n" << std::endl;
+
+        std::cout << "coldBlooded: " << coldBlooded << std::endl;
+}
+
 void Reptile::Sunbathe() {
         std::cout << name << "reptile warms itself in sun." << std::endl;
 }
 
 //____________________________________________________________________________
         //Lion
-Lion::Lion() :Mammal(), roarPower{4} {
-    kind = Kind::Lion;
-}
+Lion::Lion() 
+    : Mammal("Unnamed", Kind::Lion), roarPower{4} {}
 
-Lion::Lion(const std::string& _name, int _roarPower) 
-    : Mammal(_name), roarPower{_roarPower} {
-    kind = Kind::Lion;
+Lion::Lion(const std::string& _name, int _roarPower, Kind _k) 
+    : Mammal(_name, _k), roarPower{_roarPower} {}
+
+void Lion::PrintInfo() const {
+    std::cout << "roarPower: " << roarPower << std::endl;
+    Mammal::PrintInfo();
 }
 
 void Lion::Roar() const {
@@ -96,12 +146,18 @@ void Lion::Roar() const {
 
 //____________________________________________________________________________
         //Tiger
-Tiger::Tiger() : Mammal(), jumpHeight{2.6}{
+Tiger::Tiger() 
+    : Mammal("Unnamed", Kind::Tiger), jumpHeight{2.6} {}
+
+Tiger::Tiger(const std::string& _name, double _jumpHeight, Kind _k) 
+    : Mammal(_name, _k), jumpHeight{_jumpHeight} {
     kind = Kind::Tiger;
 }
 
-Tiger::Tiger(const std::string& _name, double _jumpHeight) : Mammal(_name), jumpHeight{_jumpHeight} {
-    kind = Kind::Tiger;
+void Tiger::PrintInfo() const {
+        MakeSound();
+        Jump();
+        Mammal::PrintInfo();
 }
 
 void Tiger::Jump() const {
@@ -115,12 +171,16 @@ void Tiger::MakeSound() const {
 
 //____________________________________________________________________________
         //Elephant
-Elephant::Elephant() : Mammal(), trunkLength{0.8} {
-    kind = Kind::Elephant;
-}
+Elephant::Elephant() 
+    : Mammal("Unnamed", Kind::Elephant), trunkLength{0.8} {}
 
-Elephant::Elephant(const std::string& _name, double _trunkLength) : Mammal(_name), trunkLength{_trunkLength} {
-    kind = Kind::Elephant;
+Elephant::Elephant(const std::string& _name, double _trunkLength, Kind _k) 
+    : Mammal(_name, _k), trunkLength{_trunkLength} {}
+
+void Elephant::PrintInfo() const {
+        MakeSound();
+        UseTrunk();
+        Mammal::PrintInfo();
 }
 
 void Elephant::MakeSound() const {
@@ -134,12 +194,16 @@ void Elephant::UseTrunk() const {
 
 //____________________________________________________________________________
         //Eagle
-Eagle::Eagle() : Bird(), visionRange{50} {
-    kind = Kind::Eagle;
-}
+Eagle::Eagle() 
+    : Bird("Unnamed", 3.2, Kind::Eagle), visionRange{50} {}
 
-Eagle::Eagle(const std::string& _name, double _visionRange) : Bird(_name), visionRange{_visionRange} {
-    kind = Kind::Eagle;
+Eagle::Eagle(const std::string& _name, double _visionRange, Kind _k) 
+    : Bird(_name, 3.2, _k), visionRange{_visionRange} {}
+
+void Eagle::PrintInfo() const {
+        Fly();
+        Soar();
+        Bird::PrintInfo();
 }
 
 void Eagle::Fly() const{
@@ -153,15 +217,20 @@ void Eagle::Soar() const {
     
 //____________________________________________________________________________
             //Parrot
-Parrot::Parrot() : Bird() {
-    kind = Kind::Parrot;
-}
+Parrot::Parrot() 
+    : Bird("Unnamed", 0.3, Kind::Parrot) {}
 
-Parrot::Parrot(const std::string& _name, std::string _text) : Bird(_name) {
-        kind = Kind::Parrot;
+Parrot::Parrot(const std::string& _name, std::string _text, Kind _k) 
+    : Bird(_name, 0.4, _k) {
         if (_text != "q") {
                 vocabulary.push_back(_text);
         }
+}
+
+void Parrot::PrintInfo() const {
+        Fly();
+        Speak();
+        Bird::PrintInfo();
 }
 
 void Parrot::Fly() const{
@@ -180,12 +249,16 @@ void Parrot::Speak() const {
 
 //____________________________________________________________________________
         //Snake
-Snake::Snake() : Reptile(), poisonous{false} {
-    kind = Kind::Snake;
-}
+Snake::Snake() 
+    : Reptile("Unnamed", Kind::Reptile), poisonous{false} {}
 
-Snake::Snake(const std::string& _name, bool _poisonous) : Reptile(_name), poisonous{_poisonous} {
-    kind = Kind::Snake;
+Snake::Snake(const std::string& _name, bool _poisonous, Kind _k) 
+    : Reptile(_name, _k), poisonous{_poisonous} {}
+
+void Snake::PrintInfo() const {
+        std::cout << name;
+        Hiss();
+        Reptile::PrintInfo();
 }
 
 void Snake::Hiss() const {
@@ -195,12 +268,15 @@ void Snake::Hiss() const {
 
 //____________________________________________________________________________
         //Crocodile
-Crocodile::Crocodile() : Reptile(), biteForce{4} {
-    kind = Kind::Crocodile;
-}
+Crocodile::Crocodile() 
+    : Reptile("Unnamed", Kind::Crocodile), biteForce{4} {}
 
-Crocodile::Crocodile(const std::string& _name, int _biteForce) : Reptile(_name), biteForce{_biteForce} {
-    kind = Kind::Crocodile;
+Crocodile::Crocodile(const std::string& _name, int _biteForce, Kind _k) 
+    : Reptile(_name, _k), biteForce{_biteForce} {}
+
+void Crocodile::PrintInfo() const {
+        Snap();
+        Reptile::PrintInfo();
 }
 
 void Crocodile::Snap() const {

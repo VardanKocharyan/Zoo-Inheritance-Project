@@ -1,90 +1,40 @@
 #include <iostream>
-#include "ZooInheritanceProject.hpp"
-#include <string>
 #include <vector>
+#include "ZooInheritanceProject.hpp"
 
-int main(void) {
+int main() {
+    // 1️⃣ Create dynamic animal objects
+    Lion* simba = new Lion("Simba", 7);
+    Tiger* tony = new Tiger("Tony", 3.5);
+    Elephant* dumbo = new Elephant("Dumbo", 1.2);
+    Eagle* aquila = new Eagle("Aquila", 50.0);
+    Parrot* polly = new Parrot("Polly", "Hello!");
+    Snake* sly = new Snake("Sly", true);
+    Crocodile* crunch = new Crocodile("Crunch", 5);
 
-        std::cout << "\tIN TASK\n\n";
-        Lion *Simba = new Lion("Simba", 7);
-        Tiger *Tony_Montana = new Tiger("Tony Montana", 4.5);
-        Eagle *Aquila = new Eagle("Aquila", 3.2);
-        Snake *Anastasia = new Snake("Anastasia");
+    // 2️⃣ Store them in a vector of Animal*
+    std::vector<Animal*> zoo;
+    zoo.push_back(simba);
+    zoo.push_back(tony);
+    zoo.push_back(dumbo);
+    zoo.push_back(aquila);
+    zoo.push_back(polly);
+    zoo.push_back(sly);
+    zoo.push_back(crunch);
 
-        std::vector<Animal*> animal;
-
-        animal.push_back(Simba);
-        animal.push_back(Tony_Montana);
-        animal.push_back(Aquila);
-        animal.push_back(Anastasia);
-
-        for(size_t i{0}; i < animal.size(); ++i) {
-                animal[i]->PrintInfo();
-        }
-
-        for(size_t i{0}; i < animal.size(); ++i) {
-                delete animal[i];
-        }
-        std::cout << "\tEND TASK\n\n\tGPT MAIN\n\n";
-
-        std::vector<Animal*> animals;
-
-            // 🦁 Create animals
-        animals.push_back(new Lion("Simba", 7));
-        animals.push_back(new Tiger("Shere Khan", 3.2));
-        animals.push_back(new Elephant("Dumbo", 1.5));
-        animals.push_back(new Eagle("Sky", 120.0));
-        animals.push_back(new Parrot("Polly", "Hello!"));
-        animals.push_back(new Snake("Nagini", true));
-        animals.push_back(new Crocodile("Snappy", 9));
-
-            // 🧾 Display info for all animals
-        std::cout << "===== Zoo Animals =====" << std::endl;
-        for (auto a : animals) {
-            a->PrintInfo();
-
-            // Perform specific actions depending on animal kind
-            switch (a->KindOf()) {
-                case Kind::Lion:
-                    dynamic_cast<Lion*>(a)->Roar();
-                    break;
-                case Kind::Tiger:
-                    dynamic_cast<Tiger*>(a)->Jump();
-                    break;
-                case Kind::Elephant:
-                    dynamic_cast<Elephant*>(a)->UseTrunk();
-                    break;
-                case Kind::Eagle:
-                    dynamic_cast<Eagle*>(a)->Soar();
-                    break;
-                case Kind::Parrot:
-                    dynamic_cast<Parrot*>(a)->Speak();
-                    break;
-                case Kind::Snake:
-                    dynamic_cast<Snake*>(a)->Hiss();
-                    break;
-                case Kind::Crocodile:
-                    dynamic_cast<Crocodile*>(a)->Snap();
-                    break;
-                default:
-                    std::cout << "Unknown animal type.\n";
-            }
-
-            std::cout << std::endl;
+    // 3️⃣ Loop over the vector and call base methods
+    for (Animal* a : zoo) {
+        std::cout << "---------------------------" << std::endl;
+        a->PrintInfo();  // Dispatches to the correct derived PrintInfo()
+        a->Feed();       // Base method works for all
     }
 
-        // 🍽️ Feed all animals
-        std::cout << "Feeding all animals..." << std::endl;
-        for (auto a : animals) {
-            a->Feed();
-        }
-
-            // 🧹 Free memory
-        for (auto a : animals)
-            delete a;
-        animals.clear();
-
-        std::cout << "\nAll animals deleted successfully 🐾" << std::endl;
+    // 4️⃣ Clean up dynamic memory
+    for (Animal* a : zoo) {
+        delete a;
+    }
+    zoo.clear();
 
     return 0;
 }
+
