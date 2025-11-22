@@ -76,11 +76,6 @@ void Mammal::PrintInfo() const {
         << "\nId: " << getId() << "\n" << std::endl;
 
     std::cout << "warmBlooded: True.\n";
-    MakeSound();
-}
-
-void Mammal::MakeSound() const {
-        std::cout << "make a generic mammal sound!" << std::endl;
 }
 
 
@@ -134,9 +129,26 @@ Lion::Lion()
 Lion::Lion(const std::string& _name, int _roarPower, Kind _k) 
     : Mammal(_name, _k), roarPower{_roarPower} {}
 
+void Lion::walk() const {
+    std::cout << "It walk to hunting." << std::endl;
+}
+
+void Lion::voice() const {
+     std::cout << "Name: " << name << "\nROAR\n" 
+        << "Power: " << roarPower << std::endl;
+}
+
+
+void Lion::feedable() const {
+    std::cout << "Lion is eating PLAV." << std::endl;
+}
+
 void Lion::PrintInfo() const {
-    std::cout << "roarPower: " << roarPower << std::endl;
     Mammal::PrintInfo();
+    walk();
+    voice();
+    feedable();
+
 }
 
 void Lion::Roar() const {
@@ -155,7 +167,9 @@ Tiger::Tiger(const std::string& _name, double _jumpHeight, Kind _k)
 }
 
 void Tiger::PrintInfo() const {
-        MakeSound();
+        voice();
+        walk();
+        feedable();
         Jump();
         Mammal::PrintInfo();
 }
@@ -165,8 +179,16 @@ void Tiger::Jump() const {
             << jumpHeight << " meter high." << std::endl;
 }
 
-void Tiger::MakeSound() const {
+void Tiger::voice() const {
     std::cout << "Tiger sount: RRRRR" << std::endl;
+}
+
+void Tiger::walk() const {
+    std::cout << "Tiger is walking in Mall and dooing shoping." << std::endl;
+}
+
+void Tiger::feedable() const {
+    std::cout << "The " << name << " is eating picca in SushiiPicca." << std::endl;
 }
 
 //____________________________________________________________________________
@@ -178,13 +200,23 @@ Elephant::Elephant(const std::string& _name, double _trunkLength, Kind _k)
     : Mammal(_name, _k), trunkLength{_trunkLength} {}
 
 void Elephant::PrintInfo() const {
-        MakeSound();
+        voice();
+        walk();
+        feedable();
         UseTrunk();
         Mammal::PrintInfo();
 }
 
-void Elephant::MakeSound() const {
-        std::cout << "Elephant sound: PXXXXXX" << std::endl;
+void Elephant::voice() const {
+    std::cout << "Elephant sound: PXXXXXX" << std::endl;
+}
+
+void Elephant::walk() const {
+    std::cout << "The " << name << "goes to fitness to lose weight";
+}
+
+void Elephant::feedable() const {
+        std::cout << "After training " << name << " ususly eating brocoly whith eags." << std::endl;
 }
 
 void Elephant::UseTrunk() const {
@@ -201,13 +233,28 @@ Eagle::Eagle(const std::string& _name, double _visionRange, Kind _k)
     : Bird(_name, 3.2, _k), visionRange{_visionRange} {}
 
 void Eagle::PrintInfo() const {
-        Fly();
+        walk();
+        fly();
+        feedable();
+        voice();
         Soar();
         Bird::PrintInfo();
 }
 
-void Eagle::Fly() const{
-    std::cout << "Eagle can fly." << std::endl;
+void Eagle::fly() const {
+    std::cout << "The " << name << " flew to a date." << std::endl;
+}
+
+void Eagle::walk() const {
+    std::cout << name << " is walking to get a bouquet of flowers for a date." << std::endl;
+}
+
+void Eagle::voice() const {
+    std::cout <<  "Voice: Tsuuuu" << std::endl;
+}
+
+void Eagle::feedable() const {
+    std::cout << "On a date, thay ordered braiced lamb with red wine." << std::endl;
 }
 
 void Eagle::Soar() const {
@@ -228,16 +275,18 @@ Parrot::Parrot(const std::string& _name, std::string _text, Kind _k)
 }
 
 void Parrot::PrintInfo() const {
-        Fly();
-        Speak();
+        fly();
+        voice();
+        walk();
+        feedable();
         Bird::PrintInfo();
 }
 
-void Parrot::Fly() const{
+void Parrot::fly() const{
         std::cout << "Parrot can Fly" << std::endl;
 }
 
-void Parrot::Speak() const {
+void Parrot::voice() const {
         if (vocabulary.size() == 0) {
                 std::cout << "Parrot can't speak." << std::endl;
                 return;
@@ -245,6 +294,14 @@ void Parrot::Speak() const {
         for(size_t i{0}; i < vocabulary.size(); ++i) {
                 std::cout << "Parrot says: " << vocabulary[i] <<  std::endl;
         }
+}
+
+void Parrot::walk() const {
+    std::cout << "Walk to eating." << std::endl;
+}
+
+void Parrot::feedable() const {
+    std::cout << "Eating his food." << std::endl;
 }
 
 //____________________________________________________________________________
@@ -256,12 +313,16 @@ Snake::Snake(const std::string& _name, bool _poisonous, Kind _k)
     : Reptile(_name, _k), poisonous{_poisonous} {}
 
 void Snake::PrintInfo() const {
-        std::cout << name;
-        Hiss();
+        feedable();
+        voice();
         Reptile::PrintInfo();
 }
 
-void Snake::Hiss() const {
+void Snake::feedable() const {
+    std::cout << "Eating a rat." << std::endl;
+}
+
+void Snake::voice() const {
      std::cout << name << " hisses: Ssssssss..." << std::endl;
 }
 
@@ -275,8 +336,23 @@ Crocodile::Crocodile(const std::string& _name, int _biteForce, Kind _k)
     : Reptile(_name, _k), biteForce{_biteForce} {}
 
 void Crocodile::PrintInfo() const {
+        swim();
+        feedable();
+        voice();
         Snap();
         Reptile::PrintInfo();
+}
+
+void Crocodile::swim() const {
+    std::cout << name << " is swiming in milk jacuse." << std::endl;
+}
+
+void Crocodile::voice() const {
+    std::cout << "Crocodile sound: SSSSSS." << std::endl;
+}
+
+void Crocodile::feedable() const {
+    std::cout << name << " eating xinkali whit rabbit and wolf." << std::endl;
 }
 
 void Crocodile::Snap() const {
