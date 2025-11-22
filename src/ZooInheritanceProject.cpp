@@ -188,7 +188,7 @@ void Tiger::walk() const {
 }
 
 void Tiger::feedable() const {
-    std::cout << "The " << name << " is eating picca in SushiiPicca." << std::endl;
+    std::cout << "The " << name << " is eating pizza in SushiiPizza." << std::endl;
 }
 
 //____________________________________________________________________________
@@ -212,7 +212,7 @@ void Elephant::voice() const {
 }
 
 void Elephant::walk() const {
-    std::cout << "The " << name << "goes to fitness to lose weight";
+    std::cout << "The " << name << " goes to fitness to lose weight." << std::endl;
 }
 
 void Elephant::feedable() const {
